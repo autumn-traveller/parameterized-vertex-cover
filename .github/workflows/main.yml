@@ -1,0 +1,26 @@
+name: build
+on: [push]
+jobs:
+  build:
+    strategy:
+      matrix:
+        build-type: [Debug, Release]
+        raptor: [ON, OFF]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: check out repository code
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: pre-cmake
+        run: cmake --version && mkdir ${{ github.workspace }}/build && echo `nproc` processing units available
+      - name: cmake
+        run: cmake -S ${{ github.workspace }} -B ${{ github.workspace }}/build -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.build-type }}
+      - name: build
+        run: cd ${{ github.workspace }}/build && cmake --build . -j`nproc`
+      - name: check for runtime linking errors
+        run: ${{ github.workspace }}/build/param_vc
+      - name: Tests
+        if: ${{ matrix.build_type }} == 'Build'
+        run: cd ${{ github.workspace }}/build && ctest
