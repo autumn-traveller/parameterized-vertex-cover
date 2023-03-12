@@ -5,7 +5,7 @@ Simple demonstration of a basic parameterization for vertex cover with respect t
 
 Build with `cmake -S . -B build && cmake --build build`
 
-Run tests with `ctest`
+Run tests with `cd build && ctest`
 
 Profiling with `build/param_vc && gprof build/param_vc build/gmon.out`
 
