@@ -9,4 +9,13 @@ Run tests with `cd build && ctest`
 
 Profiling with `build/param_vc && gprof build/param_vc build/gmon.out`
 
-Build release (performant) version with the cmake option `-DCMAKE_BUILD_TYPE=Release`
+Build release version (more performant) with the cmake option `-DCMAKE_BUILD_TYPE=Release`
+
+# still to do
+
+branch and brute force the kernel
+full tests
+verify functionality
+gprof optimization
+logic to parse in graphs from a file
+visualise solutions better?
