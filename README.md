@@ -13,9 +13,7 @@ Build release version (more performant) with the cmake option `-DCMAKE_BUILD_TYP
 
 # still to do
 
-branch and brute force the kernel
-full tests
 verify functionality
 gprof optimization
 logic to parse in graphs from a file
-visualise solutions better?
+visualise solutions with Qt
