@@ -36,7 +36,7 @@ namespace param_vc {
 
             void undelete_vertex(int i);
 
-            // rebuild the "old" graph, before vertices were removed- edges can't be recovered...
+            // rebuild the "old" graph, before vertices were removed
             void recover_deleted_vertices();
 
             int V;

@@ -141,3 +141,43 @@ TEST(VC_Tests, FailStarGraphNoKernel) {
   ASSERT_FALSE(vc.done);
   ASSERT_FALSE(vc.has_solution);
 }
+
+
+TEST(VC_Tests, FullTest1) {
+  int size = 8;
+  int param = 2;
+  int ecount = 0;
+  param_vc::Graph g = param_vc::Graph(size);
+  // almost a star graph
+  for(int i = 1; i < size; i++)
+    g.add_edge(0,i);
+  g.add_edge(6,5);
+  g.add_edge(6,7);
+
+  param_vc::ParameterizedVertexCover vc = param_vc::ParameterizedVertexCover(g,param);
+
+  ASSERT_TRUE(vc.has_vertex_cover());
+  ASSERT_EQ(vc.partial_solution.size(),2);
+  ASSERT_EQ(vc.partial_solution[0],0);
+  ASSERT_EQ(vc.partial_solution[1],6);
+  ASSERT_EQ(vc.done,true);
+  ASSERT_EQ(vc.has_solution,true);
+}
+
+TEST(VC_Tests, FullTest2) {
+  int size = 8;
+  int param = 1;
+  int ecount = 0;
+  param_vc::Graph g = param_vc::Graph(size);
+  // almost a star graph
+  for(int i = 1; i < size; i++)
+    g.add_edge(0,i);
+  g.add_edge(6,5);
+  g.add_edge(6,7);
+
+  param_vc::ParameterizedVertexCover vc = param_vc::ParameterizedVertexCover(g,param);
+
+  ASSERT_FALSE(vc.has_vertex_cover());
+  ASSERT_TRUE(vc.done);
+  ASSERT_FALSE(vc.has_solution);
+}

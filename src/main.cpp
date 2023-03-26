@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory>
+#include <climits>
 #include "param_vc.h"
 // #include <random>
 // #include <chrono>
@@ -260,7 +261,9 @@ namespace param_vc {
                 continue;
             }
             if (kprime >= nbhood_size) {
-                for(auto j : g.adj_lists[i]) {
+                std::list<int> cp = std::list<int>(g.adj_lists[i]);
+                // there is a danger that we remove a vertex from the same list we are trying to iterate over, so we use a copy
+                for(auto j : cp) {
                     partial_solution.emplace_back(j);
                     g.remove_vertex(j);
                 }
@@ -302,18 +305,47 @@ namespace param_vc {
 
 }
 
+#define default_min 1
+#define default_max 20
+#define default_param 7
+
 #ifndef WITH_GTESTS
 int main(int argc, char **argv) {
+    long min = default_min;
+    long max = default_max;
+    long param = default_param;
+    if (argc < 4) {
+        std::cout << "Usage: " << argv[0] << " [min no. of vertices (default " << min << " )] [max no. of vertices (default " << max << " )] [parameter (default " << param << " 7)]";
+    } else {
+        errno = 0;
+        min = strtol(argv[1],0,10);
+        if (errno == EINVAL) {
+            min = default_min;
+            errno = 0;
+        }
+        max = strtol(argv[2],0,10);
+        if (errno == EINVAL) {
+            max = default_max;
+            errno = 0;
+        }
+        param = strtol(argv[3],0,10);
+        if (errno == EINVAL) {
+            min = default_param;
+            errno = 0;
+        }
+    }
     param_vc::Graph g = param_vc::Graph();
-    g.randomise(0,19);
-    param_vc::ParameterizedVertexCover vc = param_vc::ParameterizedVertexCover(g,7);
+    g.randomise(min,max);
+    param_vc::ParameterizedVertexCover vc = param_vc::ParameterizedVertexCover(g,param);
 
+    std::cout << "Validator start\n";
     vc.print();
+    std::cout << "Validator end\n";
 
     if (vc.has_vertex_cover())
-        std::cout << "Solved it!!!! Awww yeauuh";
+        std::cout << "Solved it!!!! Awww yeauuh\n";
     else
-        std::cout << "No solution possible! Sorry :/";
+        std::cout << "No solution possible! Sorry :/\n";
 
     vc.print();
 
