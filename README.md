@@ -13,7 +13,7 @@ Build release version (more performant) with the cmake option `-DCMAKE_BUILD_TYP
 
 # still to do
 
+visualise solutions with Qt
 verify functionality
 gprof optimization
 logic to parse in graphs from a file
-visualise solutions with Qt
